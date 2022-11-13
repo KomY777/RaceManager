@@ -28,7 +28,6 @@ public class AdministratorController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<Administrator> login(@RequestBody Administrator administrator, HttpServletRequest request) {
-//        密码加密处理
         String password = administrator.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         System.out.println(password);
