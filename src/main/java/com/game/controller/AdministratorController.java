@@ -22,6 +22,10 @@ public class AdministratorController {
     @Autowired
     private AdministratorService administratorService;
 
+    /**
+     * 管理员登录
+     * @param administrator 管理员
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<Administrator> login(@RequestBody Administrator administrator, HttpServletRequest request) {
 //        密码加密处理
@@ -29,22 +33,28 @@ public class AdministratorController {
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         System.out.println(password);
 
-        //        查询数据库
         QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", administrator.getUsername());
-        Administrator employee1 = administratorService.getOne(queryWrapper);
+        Administrator administratorServiceOne = administratorService.getOne(queryWrapper);
 
-//        判断是否查询到
-        if (employee1 == null) {
-            return Result.error("登录失败");
+        if (administratorServiceOne == null) {
+            return Result.error("账号错误或账号不存在");
         }
 
-//        判断密码是否正确
-        if (!employee1.getPassword().equals(password)) {
-            return Result.error("登录失败");
+        if (!administratorServiceOne.getPassword().equals(password)) {
+            return Result.error("密码错误");
         }
 
-        request.getSession().setAttribute("employee", employee1.getId());
-        return Result.success(employee1);
+        request.getSession().setAttribute("administrator", administratorServiceOne.getId());
+        return Result.success(administratorServiceOne);
+    }
+
+    /**
+     * 退出登录
+     */
+    @RequestMapping("/logout")
+    public Result<String> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("administrators");
+        return Result.success("退出成功");
     }
 }
