@@ -37,7 +37,6 @@ public class FileController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation(value = "上传文件")
     public Result<String> upload(MultipartFile file) {
-        log.info("请求成功");
 
         String fileName = file.getOriginalFilename();
         if (fileName == null)
