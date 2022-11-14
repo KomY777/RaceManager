@@ -16,3 +16,5 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+gameFile:
+  path: C:\Users\就是如痴\Desktop\新建文件夹\

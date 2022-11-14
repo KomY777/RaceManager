@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/game")
 @Api(tags = "比赛信息管理")
+@CrossOrigin
 public class GameController {
 
     @Autowired
