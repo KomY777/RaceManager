@@ -45,6 +45,23 @@ public class PageController {
         LambdaQueryWrapper<Game> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotBlank(gameName),Game::getGameName,gameName);
         gameService.page(page,wrapper);
-        return Result.success(page);
+        if(page.getPages()>0) {
+            return Result.success(page);
+        }else {
+            return Result.error("没有查到信息");
+        }
+    }
+    @RequestMapping(value = "/searchpage",method = RequestMethod.GET)
+    @ApiOperation(value="模糊查询带翻页功能")
+    public Result<Page<Game>> searchPage(String gameName,int pagenum){
+        Page<Game> page =  gameService.page(new Page<>(pagenum,10));
+        LambdaQueryWrapper<Game> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StringUtils.isNotBlank(gameName),Game::getGameName,gameName);
+        gameService.page(page,wrapper);
+        if (page.getPages()<=pagenum) {
+            return Result.success(page);
+        }else{
+            return Result.error("访问失败");
+        }
     }
 }
