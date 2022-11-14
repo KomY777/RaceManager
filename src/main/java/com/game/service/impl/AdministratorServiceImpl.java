@@ -7,6 +7,6 @@ import com.game.service.AdministratorService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdministratorImpl extends ServiceImpl<AdministratorMapper, Administrator> implements AdministratorService {
+public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, Administrator> implements AdministratorService {
 
 }
