@@ -9,7 +9,7 @@ import lombok.Data;
  * 管理员
  */
 @Data
-@ApiModel(value = "标签基本信息数据传输对象")
+@ApiModel(value = "管理员账号数据传输对象")
 public class Administrator {
 
     private static final long serialVersionUID = 1L;
