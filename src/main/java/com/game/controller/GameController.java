@@ -38,7 +38,7 @@ public class GameController {
      * 查看比赛详情
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<Game> getGameById(@PathVariable Integer id, HttpServletRequest request) {
+    public Result<Game> getGameById(@PathVariable Long id, HttpServletRequest request) {
         if (request.getSession().getAttribute("administrator") == null)
             return Result.error("管理员未登录");
 
@@ -50,4 +50,21 @@ public class GameController {
         return Result.success(gameServiceOne);
     }
 
+    /**
+     * 撤销比赛
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Result<String> deleteById(@PathVariable Long id, HttpServletRequest request) {
+        if (request.getSession().getAttribute("administrator") == null)
+            return Result.error("管理员未登录");
+
+        QueryWrapper<Game> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", id);
+        Game gameServiceOne = gameService.getOne(queryWrapper);
+        if (gameServiceOne == null)
+            return Result.error("该比赛不存在");
+        else
+            gameService.remove(queryWrapper);
+        return Result.success("撤销成功");
+    }
 }
