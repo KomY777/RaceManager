@@ -38,7 +38,7 @@ public class GameController {
      * 查看比赛详情
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<Game> getGameByName(@PathVariable Integer id, HttpServletRequest request) {
+    public Result<Game> getGameById(@PathVariable Integer id, HttpServletRequest request) {
         if (request.getSession().getAttribute("administrator") == null)
             return Result.error("管理员未登录");
 
@@ -49,4 +49,5 @@ public class GameController {
             return Result.error("该比赛不存在");
         return Result.success(gameServiceOne);
     }
+
 }
