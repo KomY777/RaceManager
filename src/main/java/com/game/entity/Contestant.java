@@ -12,7 +12,7 @@ public class Contestant {
      * 主键
      */
     @ApiModelProperty(value = "id，主键自增",example = "1",position = 1,required = true)
-    private long id;
+    private Long id;
     /**
      * 姓名
      */
