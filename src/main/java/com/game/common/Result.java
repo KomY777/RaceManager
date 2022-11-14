@@ -1,5 +1,7 @@
 package com.game.common;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -7,13 +9,26 @@ import lombok.Data;
  * @param <T>
  */
 @Data
+@ApiModel(value = "统一返回对象格式")
 public class Result<T> {
 
-    private Integer code; //1表示操作成功，0表示操作失败
+    /**
+     * 状态码
+     */
+    @ApiModelProperty(value = "状态码，1表示请求操作成功，0表示请求操作失败")
+    private Integer code;
 
-    private String msg; //提示信息
+    /**
+     * 提示信息
+     */
+    @ApiModelProperty(value = "返回的提示信息")
+    private String msg;
 
-    private T data; //传输得数据对象
+    /**
+     * 传输数据对象
+     */
+    @ApiModelProperty(value = "返回的数据")
+    private T data;
 
 //    操作成功
     public static <T> Result<T> success(T object) {

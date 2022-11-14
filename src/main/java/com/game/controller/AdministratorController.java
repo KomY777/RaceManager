@@ -5,6 +5,7 @@ import com.game.common.Result;
 import com.game.entity.Administrator;
 import com.game.service.AdministratorService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class AdministratorController {
      * @param administrator 管理员
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ApiOperation(value = "管理员登录")
+    @ApiOperation(value = "管理员登录", notes = "由管理员管理比赛")
+    @ApiImplicitParam(name = "administrator", value = "管理员", required = true, paramType = "body")
     public Result<Administrator> login(@RequestBody Administrator administrator, HttpServletRequest request) {
         String password = administrator.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());

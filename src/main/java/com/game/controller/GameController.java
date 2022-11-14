@@ -4,15 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.game.common.Result;
 import com.game.entity.Game;
 import com.game.service.GameService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/game")
+@Api(tags = "比赛信息管理")
 public class GameController {
 
     @Autowired
@@ -23,6 +28,8 @@ public class GameController {
      * @param game 比赛
      */
     @RequestMapping(value = "/gameMsg", method = RequestMethod.POST)
+    @ApiOperation(value = "添加比赛", notes = "仅管理员可操作")
+    @ApiImplicitParam(name = "game", value = "比赛信息", required = true, paramType = "body")
     public Result<String> addGameMsg(@RequestBody Game game, HttpServletRequest request) {
         log.info("请求成功发送");
 //        判断是否是管理员登录
@@ -38,6 +45,7 @@ public class GameController {
      * 查看比赛详情
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据id获取比赛详情", notes = "均可操作")
     public Result<Game> getGameById(@PathVariable Long id, HttpServletRequest request) {
         if (request.getSession().getAttribute("administrator") == null)
             return Result.error("管理员未登录");
@@ -54,6 +62,7 @@ public class GameController {
      * 撤销比赛
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "根据id撤销比赛", notes = "仅管理员可操作")
     public Result<String> deleteById(@PathVariable Long id, HttpServletRequest request) {
         if (request.getSession().getAttribute("administrator") == null)
             return Result.error("管理员未登录");
