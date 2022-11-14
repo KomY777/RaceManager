@@ -9,9 +9,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 
 @Slf4j
@@ -20,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = "比赛信息管理")
 @CrossOrigin
 public class GameController {
+
+    @Value("${gameFile.path}")
+    private String rootPath;
 
     @Autowired
     private GameService gameService;
@@ -40,7 +45,6 @@ public class GameController {
         gameService.save(game);
         return Result.success("添加成功");
     }
-
 
     /**
      * 查看比赛详情
@@ -73,8 +77,12 @@ public class GameController {
         Game gameServiceOne = gameService.getOne(queryWrapper);
         if (gameServiceOne == null)
             return Result.error("该比赛不存在");
-        else
+        else {
+            Game game = gameService.getOne(queryWrapper);
+            File file = new File(rootPath + game.getGameFile());
+            file.delete();
             gameService.remove(queryWrapper);
+        }
         return Result.success("撤销成功");
     }
 }
