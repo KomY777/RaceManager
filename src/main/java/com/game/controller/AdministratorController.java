@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.game.common.Result;
 import com.game.entity.Administrator;
 import com.game.service.AdministratorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequestMapping("/administrator")
+@Api(tags = "管理员信息")
 public class AdministratorController {
 
     @Autowired
@@ -27,6 +30,7 @@ public class AdministratorController {
      * @param administrator 管理员
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "管理员登录")
     public Result<Administrator> login(@RequestBody Administrator administrator, HttpServletRequest request) {
         String password = administrator.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
@@ -51,7 +55,8 @@ public class AdministratorController {
     /**
      * 退出登录
      */
-    @RequestMapping("/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ApiOperation(value = "退出登录")
     public Result<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("administrators");
         return Result.success("退出成功");
