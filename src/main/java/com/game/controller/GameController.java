@@ -85,4 +85,16 @@ public class GameController {
         }
         return Result.success("撤销成功");
     }
+    @RequestMapping(value = "//changestate",method = RequestMethod.POST)
+    @ApiOperation(value = "更改比赛状态")
+    public Result<String> changestate(@RequestBody Game game,HttpServletRequest request){
+        if (request.getSession().getAttribute("administrator") == null){
+            return Result.error("管理员未登录");
+        }
+        if (gameService.updateById(game)) {
+            return Result.success("修改成功");
+        }else {
+            return Result.error("修改失败");
+        }
+    }
 }
